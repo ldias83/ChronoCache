@@ -1,0 +1,42 @@
+# --- Build artifacts ---
+build/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# --- VS Code settings ---
+.vscode/
+*.code-workspace
+
+# --- Compiled binaries / objects ---
+*.o
+*.obj
+*.so
+*.a
+*.out
+*.exe
+
+# --- Logs and debugging files ---
+*.log
+*.gz
+*.core
+
+# --- Backup / temp files ---
+*~
+*.swp
+*.bak
+
+# --- Test outputs ---
+Testing/
+test-results/
+
+# --- Other optional ignores ---
+*.ninja
+*.ninja_deps
+*.ninja_log
+rules.ninja
+compile_commands.json
+
+# --- CLion / JetBrains IDEs (optional, just in case) ---
+.idea/
