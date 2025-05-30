@@ -6,4 +6,4 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include_directories(${CMAKE_SOURCE_DIR}/inc)
 
-add_executable(chronocache  src/main.cpp)
+add_executable(chronocache src/main.cpp)
