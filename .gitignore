@@ -43,3 +43,6 @@ compile_commands.json
 
 # VS Code settings (optional)
 .vscode/
+
+# Ignore build directory
+bld/
