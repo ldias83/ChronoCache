@@ -1,5 +1,6 @@
 #include <iostream>
 #include <thread>
+#include <chrono>
 #include "ChronoCache.hpp"
 
 template <typename K, typename V>
@@ -13,15 +14,22 @@ void tryGetCache(ChronoCache<K, V>& cache, const K& key) {
 
 int main() {
 
-    std::string token {"token_001"};
-    std::string value {"123456789"};
     ChronoCache<std::string, std::string> cache;
+    const int rounds { 10000 };
 
-    cache.put(token, value, std::chrono::seconds(5));
-    tryGetCache(cache, token);
-    
-    std::this_thread::sleep_for(std::chrono::seconds(5));
-    tryGetCache(cache, token);
+    // Insert lots of keys with short TTLs
+    for (int i = 0; i < rounds; ++i) {
+        cache.put("token_" + std::to_string(i), std::to_string(i * 12345), std::chrono::seconds(3));
+    }
+
+    // Sleep to let some TTLs expire
+    std::this_thread::sleep_for(std::chrono::milliseconds(120));
+
+    // Try to get them all — some will hit, most will miss
+    for (int i = 0; i < rounds; ++i) {
+        tryGetCache(cache, "token_" + std::to_string(i));
+    }
+
 
     return 0;
 }

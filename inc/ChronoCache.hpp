@@ -7,7 +7,6 @@ using Clock = std::chrono::steady_clock;
 template <typename K, typename V>
 class ChronoCache {
 public:
-
     auto put(const K& key, const V& value, std::chrono::seconds ttl) -> void {
         auto expiration { Clock::now() + ttl };
         m_cache[key] = { value, expiration };
