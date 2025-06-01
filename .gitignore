@@ -46,3 +46,6 @@ compile_commands.json
 
 # Ignore build directory
 bld/
+
+# Ignore profiling files
+prf/
