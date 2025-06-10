@@ -1,7 +1,7 @@
 # ChronoCache
 
 ChronoCache is a high-performance C++14+ thread-safe caching library with time-based expiration (TTL).  
-Designed with extensibility and performance in mind, it offers an elegant and efficient solution for managing temporary key-value data in multi-threaded applications.
+Designed with extensibility and performance in mind, it offers a solution for managing temporary key-value data in multi-threaded applications.
 
 ## Features
 
