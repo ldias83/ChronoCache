@@ -13,24 +13,23 @@ void tryGetCache(ChronoCache<K, V>& cache, const K& key) {
 }
 
 int main() {
+    ChronoCache<int, int> cache;
+    const int rounds   = 50'000'000;
+    const int num_keys = 100'000;
 
-    ChronoCache<int, std::string> cache;
-    const int rounds { 10'000'000 };
-
-    // Insert lots of keys with short TTLs
-    for (int i = 0; i < rounds; ++i) {
-        int key = i % 1000;
-        std::string value = std::to_string(i * 12345);
-        cache.put(key, value, std::chrono::seconds(3));
+    // Warm-up phase (just insert everything once)
+    for (int i = 0; i < num_keys; ++i) {
+        cache.put(i, i * 10, std::chrono::seconds(5));  // Long TTL to avoid expiration
     }
 
-    // Sleep to let some TTLs expire
-    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    auto start = std::chrono::steady_clock::now();
 
-    // Try to get them all — some will hit, most will miss
+    // Stress test: hit `get()` and `put()` in loop
     for (int i = 0; i < rounds; ++i) {
-        int key = i % 1000;
-        tryGetCache(cache, key);
+        int key = i % num_keys;
+
+        cache.get(key); // mostly hits
+        cache.put(key, key * 20, std::chrono::seconds(5));  // overwrite with same TTL
     }
 
     return 0;
