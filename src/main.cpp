@@ -14,7 +14,7 @@ void tryGetCache(ChronoCache<K, V>& cache, const K& key) {
 
 int main() {
     ChronoCache<int, int> cache;
-    const int rounds   = 50'000'000;
+    const int rounds   = 80'000'000;
     const int num_keys = 100'000;
 
     // Warm-up phase (just insert everything once)
