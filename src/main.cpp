@@ -1,36 +1,41 @@
+#include "ChronoCache.hpp"
 #include <iostream>
 #include <thread>
 #include <chrono>
-#include "ChronoCache.hpp"
+#include <numeric>      // iota
+#include <random>
+#include <vector>
+#include <algorithm>
 
-template <typename K, typename V>
-void tryGetCache(ChronoCache<K, V>& cache, const K& key) {
-    if (auto value = cache.get(key)) {
-        //std::cout << "Found valid token: " << key << ": " << *value << std::endl;
-    } else {
-        //std::cout << "Expired or not valid token: " << key << std::endl;
+/* Stop the optimiser from deleting results. */
+template <typename T>
+inline void keep(const T& v) { asm volatile("" : : "g"(v) : "memory"); }
+
+/* ─── quick knobs ─────────────────────────────────────────── */
+constexpr std::size_t ITERS = 400'000'000;                // total ops
+constexpr auto  TTL_LONG    = std::chrono::seconds(60);   // never expires
+constexpr auto  TTL_SHORT   = std::chrono::seconds(01);   // expires instantly 
+/* ─────────────────────────────────────────────────────────── */
+
+int main()
+{
+    ChronoCache<int,int> cache;
+
+    // key 0: always-hit       | key 1: expires immediately
+    // key 2: never inserted   | (covers cold miss path) 
+    cache.put(0, 0, TTL_LONG);
+    cache.put(1, 1, TTL_SHORT);
+
+    for (std::size_t i = 0; i < ITERS; ++i)
+    {
+        switch (i & 3)          // cycles 0,1,2,3,0,1,2,3…
+        {
+            case 0: keep(cache.get(0));         break;  // guaranteed hit
+            case 1: keep(cache.get(1));         break;  // usually expired
+            case 2: keep(cache.get(2));         break;  // cold miss
+            case 3: cache.put(1, 1, TTL_SHORT); break;  // re-insert key-1
+        }
     }
-}
 
-int main() {
-    ChronoCache<int, int> cache;
-    const int rounds   = 80'000'000;
-    const int num_keys = 100'000;
-
-    // Warm-up phase (just insert everything once)
-    for (int i = 0; i < num_keys; ++i) {
-        cache.put(i, i * 10, std::chrono::seconds(5));  // Long TTL to avoid expiration
-    }
-
-    auto start = std::chrono::steady_clock::now();
-
-    // Stress test: hit `get()` and `put()` in loop
-    for (int i = 0; i < rounds; ++i) {
-        int key = i % num_keys;
-
-        cache.get(key); // mostly hits
-        cache.put(key, key * 20, std::chrono::seconds(5));  // overwrite with same TTL
-    }
-
-    return 0;
+    std::this_thread::sleep_for(std::chrono::seconds(1));
 }
