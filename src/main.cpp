@@ -2,20 +2,19 @@
 #include <iostream>
 #include <thread>
 #include <chrono>
-#include <numeric>      // iota
+#include <numeric>
 #include <random>
 #include <vector>
 #include <algorithm>
 
-/* Stop the optimiser from deleting results. */
+// Stop the optimiser from deleting results.
 template <typename T>
 inline void keep(const T& v) { asm volatile("" : : "g"(v) : "memory"); }
 
-/* ─── quick knobs ─────────────────────────────────────────── */
-constexpr std::size_t ITERS = 400'000'000;                // total ops
-constexpr auto  TTL_LONG    = std::chrono::seconds(60);   // never expires
-constexpr auto  TTL_SHORT   = std::chrono::seconds(01);   // expires instantly 
-/* ─────────────────────────────────────────────────────────── */
+// Constants 
+constexpr std::size_t ITERS     { 400'000'000 };                // total ops
+constexpr auto        TTL_LONG  { std::chrono::seconds(60) };   // never expires
+constexpr auto        TTL_SHORT { std::chrono::seconds(01) };   // expires instantly 
 
 int main()
 {
@@ -26,7 +25,7 @@ int main()
     cache.put(0, 0, TTL_LONG);
     cache.put(1, 1, TTL_SHORT);
 
-    for (std::size_t i = 0; i < ITERS; ++i)
+    for (std::size_t i {}; i < ITERS; ++i)
     {
         switch (i & 3)          // cycles 0,1,2,3,0,1,2,3…
         {
