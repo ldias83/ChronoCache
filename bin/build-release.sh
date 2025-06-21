@@ -9,5 +9,6 @@ cmake -S . -B bld -DCMAKE_BUILD_TYPE=Release \
       -fno-inline-functions-called-once"
 
 cmake --build bld
-echo "Release build complete."
+cmake --build bld --target bench_chronocache
+echo "Release build success"
 
