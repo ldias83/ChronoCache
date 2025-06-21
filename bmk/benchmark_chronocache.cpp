@@ -46,7 +46,29 @@ BENCHMARK(bm_putSingle)->Iterations(kBenchmarkIterationsDft);
 
 
 
-/// \brief Benchmark measuring the time to retrieve a key that is guaranteed to exist in the cache (cache hit).
+/// \brief Stress benchmark for `ChronoCache::put()` mirroring the Valgrind run.
+///
+/// Inserts a fresh key (`key++`) each iteration with a long TTL (60 s), forcing
+/// the map to grow without any expiry-driven de-allocations. Latency numbers
+/// from Google Benchmark can be correlated 1-to-1 with allocation totals from
+/// the Valgrind stress-test (see main.cpp), because the workloads are identical.
+///
+/// \note Keep the `static int key` counter; it guarantees monotonically
+///       increasing keys across all iterations.
+
+static void bm_putStress(benchmark::State& state) {
+    ChronoCache<int, int> cache;
+    for (auto _ : state) {
+        static int key = 0;
+        cache.put(key++, 123, std::chrono::seconds(60));
+    }
+}
+BENCHMARK(bm_putStress)->Iterations(kBenchmarkIterationsDft);
+
+
+
+/// \brief Benchmark measuring the time to retrieve a key that is guaranteed to exist in 
+///        the cache (Chrono cache hit).
 ///
 /// The cache is pre-filled with a key (42). Each iteration retrieves it via `get()`,
 /// simulating repeated access to the same cached item (high temporal locality).
