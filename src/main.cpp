@@ -9,7 +9,7 @@ template <typename T>
 inline void keep(const T& v) { asm volatile("" : : "g"(v) : "memory"); }
 
 // Constants 
-constexpr std::size_t ITERS     { 50'000'000 };                // total ops
+constexpr std::size_t ITERS     { 15'000'000 };                // total ops
 constexpr auto        TTL_LONG  { std::chrono::seconds(60) };  // never expires
 constexpr auto        TTL_SHORT { std::chrono::seconds(01) };  // expires instantly 
 

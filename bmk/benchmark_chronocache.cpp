@@ -63,7 +63,7 @@ static void bm_putStress(benchmark::State& state) {
         cache.put(key++, 123, std::chrono::seconds(60));
     }
 }
-BENCHMARK(bm_putStress)->Iterations(kBenchmarkIterationsDft);
+BENCHMARK(bm_putStress);
 
 
 

@@ -5,12 +5,12 @@ CMakeCache.txt
 cmake_install.cmake
 Makefile
 
-# -- Report files
-rpt/
-
 # --- VS Code settings ---
 .vscode/
 *.code-workspace
+
+# --- Roadmap ---
+rmp/
 
 # --- Compiled binaries / objects ---
 *.o
