@@ -11,6 +11,7 @@ Makefile
 
 # --- Roadmap ---
 rmp/
+rpt/
 
 # --- Compiled binaries / objects ---
 *.o
