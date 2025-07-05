@@ -28,7 +28,7 @@ that:
 
 | Release | Report | Highlights |
 | ------- | ------ | ---------- |
-| **v1.0.00** | [`Chrono Cache report v1.0.00.pdf`](<rpt/Chrono Cache report v1.0.00.pdf>) | Functional baseline, naïve `std::unordered_map`, single mutex |
+| **v1.0.00** | [`Chrono Cache report v1.0.00.pdf`](<rpt/Chrono Cache report v1.0.00.pdf>) | Functional baseline, naïve `std::unordered_map`, single thread |
 
 
 *Why bother?*  
