@@ -31,9 +31,9 @@ that:
 | **v1.0.00** | [`Chrono Cache report v1.0.00.pdf`](<rpt/Chrono Cache report v1.0.00.pdf>) | Functional baseline, naïve `std::unordered_map`, single thread |
 
 
-*Why bother?*  
+*Rationale:*  
 By coupling every code delta with a focused report, contributors can reason
-about **“why this change?”** rather than **“what changed?”**—accelerating code
+about **“why this change?”** rather than **“what changed?”**,accelerating code
 review, validating optimisations, and documenting trade-offs for future
 maintainers.
 
