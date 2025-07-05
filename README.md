@@ -28,8 +28,8 @@ that:
 
 | Release | Report | Highlights |
 | ------- | ------ | ---------- |
-| **v1.0.00** | [`rpt/v1.0.00.pdf`](rpt/v1.0.00.pdf) | Functional baseline, naïve `std::unordered_map`, single mutex   |
-| **v1.0.01** | [`rpt/v1.0.01.pdf`](rpt/v1.0.01.pdf) | Minor refactor, allocator hot-spot analysis, roadmap formalised |
+| **v1.0.00** | [`Chrono Cache report v1.0.00.pdf`](<rpt/Chrono Cache report v1.0.00.pdf>) | Functional baseline, naïve `std::unordered_map`, single mutex |
+
 
 *Why bother?*  
 By coupling every code delta with a focused report, contributors can reason

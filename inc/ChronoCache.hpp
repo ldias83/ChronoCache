@@ -12,6 +12,7 @@ public:
         m_cache[key] = { value, expiration };
     }
 
+    [[nodiscard]]
     auto get(const K& key) -> std::optional<V> {
         auto cacheIt { m_cache.find(key) };
         if (cacheIt != m_cache.end()) {
@@ -22,6 +23,16 @@ public:
             m_cache.erase(cacheIt);
         }
         return std::nullopt;
+    }
+
+    [[nodiscard]]
+    auto size() const -> std::size_t {
+        std::size_t n {};
+        const auto now { Clock::now() };
+        for (const auto& [_, entry] : m_cache) {
+            n = (now < entry.expiry) ? n + 1 : n;
+        }
+        return n;
     }
 
 private:
