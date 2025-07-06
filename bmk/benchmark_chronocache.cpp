@@ -28,6 +28,7 @@
 #include "ChronoCache.hpp"
 
 constexpr long int kBenchmarkIterationsDft {50'000'000};
+constexpr long int kBenchmarkIterationsPut {20'000'000};
 constexpr long int kBenchmarkIterationsRdm {100'000};
 
 
@@ -57,7 +58,7 @@ BENCHMARK(bm_putSingle)->Iterations(kBenchmarkIterationsDft);
 ///       increasing keys across all iterations.
 
 static void bm_putStress(benchmark::State& state) {
-    ChronoCache<int, int> cache;
+    ChronoCache<int, int> cache { static_cast<std::size_t>(kBenchmarkIterationsPut) };
     for (auto _ : state) {
         static int key = 0;
         cache.put(key++, 123, std::chrono::seconds(60));

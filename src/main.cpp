@@ -23,7 +23,7 @@ void stressPut(ChronoCache<int,int>& cache, std::size_t begin) {
 
 int main() {
 
-    ChronoCache<int,int> cache;
+    ChronoCache<int,int> cache { static_cast<std::size_t>(ITERS) };
     int key { 1 };
 
     // key 0: never inserted (covers cold miss path) 
